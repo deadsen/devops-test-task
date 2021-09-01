@@ -13,7 +13,7 @@ phases:
       - eval "$(ssh-agent -s)"
       - echo "$DEPLOYKEY" | ssh-add - > /dev/null
       - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
-      - docker context create remote --docker "host=ssh://host=ssh://deploy@$DEPLOYMENT_SERVER_IP"
+      - docker context create remote --docker "host=ssh://deploy@$DEPLOYMENT_SERVER_IP"
   build:
     commands:
       - echo Build started on `date`

@@ -5,6 +5,13 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - echo Adding ssh-key for deploy user
+      - apt install openssh-client
+      - mkdir ~/.ssh
+      - chmod 700 ~/.ssh
+      - eval "$(ssh-agent -s)"
+      - echo "$DEPLOY_KEY" | tr -d '\r' | ssh-add - > /dev/null
+      - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
   build:
     commands:
       - echo Build started on `date`
@@ -16,3 +23,4 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - ssh deploy@$DEPLOYMENT_SERVER_IP "docker service update --with-registry-auth --force --image $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG chatbots-app_chatbots-app"

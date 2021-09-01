@@ -7,7 +7,7 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - echo Adding ssh-key for deploy user
       - apt install openssh-client
-      - mkdir ~/.ssh
+      - mkdir -p ~/.ssh
       - chmod 700 ~/.ssh
       - eval "$(ssh-agent -s)"
       - echo "$DEPLOYKEY" | tr -d '\r' | ssh-add - > /dev/null

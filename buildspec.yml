@@ -8,8 +8,7 @@ phases:
       - echo Adding ssh-key for deploy user
       - apt install openssh-client
       - mkdir -p ~/.ssh
-      - chmod 700 ~/.ssh
-      - echo "$DEPLOYKEY"
+      - chmod 700 ~/.ssр
       - eval "$(ssh-agent -s)"
       - echo "$DEPLOYKEY" | ssh-add - > /dev/null
       - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts

@@ -10,7 +10,7 @@ phases:
       - mkdir -p ~/.ssh
       - chmod 700 ~/.ssh
       - eval "$(ssh-agent -s)"
-      - echo "$DEPLOYKEY" | ssh-add - > /dev/null
+      - echo -e "$DEPLOYKEY" | ssh-add - > /dev/null
       - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
   build:
     commands:

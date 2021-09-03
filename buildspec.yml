@@ -14,7 +14,7 @@ phases:
       - echo "$DEPLOYKEY" | ssh-add - > /dev/null
       - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
       - docker context create remote --docker "host=ssh://deploy@$DEPLOYMENT_SERVER_IP"
-      - echo #{SourceVariables.BranchName}
+      - echo "#{SourceVariables.BranchName}"
   build:
     commands:
       - echo Build started on `date`

@@ -1,9 +1,9 @@
-FROM node:lts-alpine AS base
+FROM node:lts-alpine AS dependencies
 WORKDIR /app
 COPY package.json .
 RUN npm install --only=production
 
-FROM base AS release
+FROM node:lts-alpine AS release
 ENV NODE_ENV=production
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
